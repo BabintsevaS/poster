@@ -30,7 +30,7 @@ public class TestPosterManager {
     }
 
     @Test
-    public void shouldGetLast() {
+    public void shouldGetLastMoreLimit() {
         PosterRepository posterRepository = new PosterRepository();
         PosterManager manager = new PosterManager(posterRepository);
         PosterItem first = new PosterItem(1, 1, "Bloodshot", 5);
@@ -67,5 +67,27 @@ public class TestPosterManager {
 
     }
 
+    @Test
+    public void shouldGetLastLessLimit() {
+        PosterRepository posterRepository = new PosterRepository();
+        PosterManager manager = new PosterManager(posterRepository);
+        PosterItem first = new PosterItem(1, 1, "Bloodshot", 5);
+        PosterItem second = new PosterItem(2, 2, "Forward", 5);
+        PosterItem third = new PosterItem(3, 3, "Hotel", 5);
+        PosterItem forth = new PosterItem(4, 4, "Gentlemen", 5);
+        PosterItem fifth = new PosterItem(5, 5, "Invisible", 5);
 
+        posterRepository.save(first);
+        posterRepository.save(second);
+        posterRepository.save(third);
+        posterRepository.save(forth);
+        posterRepository.save(fifth);
+
+
+        PosterItem[] expected = {fifth, forth, third, second, first};
+        PosterItem[] actual = manager.getLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+
+    }
 }
